@@ -4,6 +4,10 @@ project($ENV{PROJECT_NAME} VERSION 0.1.0)
 include(CTest)
 enable_testing()
 
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ../binaries)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ../binaries)
+set(WORKING_DIRECTORY ../binaries/)
+
 file(GLOB_RECURSE SOURCE_FILES "src/*.cpp" "src/*.cxx" "src/*.c")
 file(GLOB_RECURSE HEADER_FILES "src/*.h" "src/*.hpp")
 
