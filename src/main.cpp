@@ -6,8 +6,8 @@ int gridSize;
 std::array<std::array<int, 50>, 50> grid;
 
 GLvoid initGrid() {
-  for (int i = 0; i < 25; i++) {
-    for (int j = 0; j < 25; j++) {
+  for (int i = 0; i < 50; i++) {
+    for (int j = 0; j < 50; j++) {
       grid[i][j] = 0;
     }
   }
