@@ -1,0 +1,7 @@
+{
+    "name": "glut-cmake-vcpkg-template",
+    "version": "0.1.0",
+    "dependencies": [
+        "freeglut"
+    ]
+}
