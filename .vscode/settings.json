@@ -3,7 +3,7 @@
     "cmake.configureEnvironment": 
     {
         "VCPKG_ROOT": "C:/tools/vcpkg",
-        "PROJECT_NAME": "glut-cmake-vcpkg-template"
+        "PROJECT_NAME": "flood-fill-gui"
     },
     "cmake.configureSettings": 
     {

@@ -1,5 +1,5 @@
 {
-    "name": "glut-cmake-vcpkg-template",
+    "name": "flood-fill-gui",
     "version": "0.1.0",
     "dependencies": [
         "freeglut"
