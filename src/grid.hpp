@@ -1,3 +1,5 @@
+#pragma once
+
 #include <GL/glut.h>
 #include <vector>
 #include "helpers.hpp"
