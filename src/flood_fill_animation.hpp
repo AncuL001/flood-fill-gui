@@ -50,5 +50,9 @@ public:
 
         tilesToFill = temp;
 
+        if (tilesToFill.empty()) {
+            isFinished = true;
+        }
+
     }
 };
