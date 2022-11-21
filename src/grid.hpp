@@ -4,6 +4,7 @@
 #include <vector>
 #include <array>
 #include "helpers.hpp"
+#include "point.hpp"
 
 class Grid
 {
@@ -16,7 +17,11 @@ public:
         }
     }
 
-    std::array<int, 2> getCoordinate(int x, int y, int windowWidth, int windowHeight) {
+    int at(Point point) {
+        return grid[point.y][point.x];
+    }
+
+    Point getCoordinate(int x, int y, int windowWidth, int windowHeight) {
         GLfloat gridWidth = GLfloat(windowWidth) / grid[0].size();
         GLfloat gridHeight = GLfloat(windowHeight) / grid.size();
 
@@ -26,7 +31,7 @@ public:
     GLvoid onMouseClick(int x, int y, int windowWidth, int windowHeight) {
         auto coord = getCoordinate(x, y, windowWidth, windowHeight);
 
-        grid[coord[1]][coord[0]] = 0x000000;
+        grid[coord.y][coord.x] = 0x000000;
     }
 
     GLvoid render() {
