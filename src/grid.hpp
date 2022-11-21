@@ -6,9 +6,9 @@
 
 class Grid
 {
+public:
     std::vector<std::vector<int>> grid;
 
-public:
     Grid(int size) {
         for (int i = 0; i < size; i++) {
             grid.push_back(std::vector<int>(size, 0xFFFFFF));
