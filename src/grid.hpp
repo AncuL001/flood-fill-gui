@@ -2,6 +2,7 @@
 
 #include <GL/glut.h>
 #include <vector>
+#include <array>
 #include "helpers.hpp"
 
 class Grid
@@ -15,11 +16,17 @@ public:
         }
     }
 
-    GLvoid onMouseClick(int x, int y, int windowWidth, int windowHeight) {
+    std::array<int, 2> getCoordinate(int x, int y, int windowWidth, int windowHeight) {
         GLfloat gridWidth = GLfloat(windowWidth) / grid[0].size();
         GLfloat gridHeight = GLfloat(windowHeight) / grid.size();
 
-        grid[int(y / gridHeight)][int(x / gridWidth)] = 0x000000;
+        return {int(x / gridWidth), int(y / gridHeight)};
+    }
+
+    GLvoid onMouseClick(int x, int y, int windowWidth, int windowHeight) {
+        auto coord = getCoordinate(x, y, windowWidth, windowHeight);
+
+        grid[coord[1]][coord[0]] = 0x000000;
     }
 
     GLvoid render() {
