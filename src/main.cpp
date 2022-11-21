@@ -14,6 +14,8 @@ GLvoid onMouseClick(int button, int state, int x, int y) {
   if (button == GLUT_LEFT_BUTTON && state == GLUT_UP) {
     grid.onMouseClick(x, y, glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT));
   }
+
+  glutPostRedisplay();
 }
 
 GLvoid onDisplay() {
