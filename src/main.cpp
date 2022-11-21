@@ -1,18 +1,36 @@
 #include <GL/glut.h>
 #include <iostream>
 #include "grid.hpp"
+#include "flood_fill_animation.hpp"
 
 #define BLOCK_MODE 0
 #define FILL_MODE 1
 
 Grid grid = Grid(50);
+FloodFillAnimation* currentAnimation = nullptr;
 
 int currentMode = BLOCK_MODE;
 
 GLvoid onMouseClick(int button, int state, int x, int y) {
   std::cout << "MouseClick func ran!\n";
-  if (button == GLUT_LEFT_BUTTON && state == GLUT_UP) {
-    grid.onMouseClick(x, y, glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT));
+
+  if (!currentAnimation) {
+    switch (currentMode) {
+      case BLOCK_MODE:
+        if (button == GLUT_LEFT_BUTTON && state == GLUT_UP) {
+          grid.onMouseClick(x, y, glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT));
+        }
+        break;
+
+      case FILL_MODE:
+        currentAnimation = new FloodFillAnimation(&grid, 
+                                                  grid.getCoordinate(x, y, glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT)), 
+                                                  0xFF0000);
+        break;
+
+      default:
+        break;
+    }
   }
 
   glutPostRedisplay();
@@ -20,6 +38,16 @@ GLvoid onMouseClick(int button, int state, int x, int y) {
 
 GLvoid onDisplay() {
   std::cout << "Display func ran!\n";
+
+  if (currentAnimation) {
+    currentAnimation->forward();
+
+    if (currentAnimation->isFinished) {
+      delete currentAnimation;
+      currentAnimation = nullptr;
+    }
+  }
+
   glClear(GL_COLOR_BUFFER_BIT);
 
   glPushMatrix();
