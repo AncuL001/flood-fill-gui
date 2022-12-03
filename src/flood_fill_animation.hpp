@@ -34,17 +34,17 @@ public:
             auto t = tilesToFill.front();
             tilesToFill.pop();
             affectedGrid->grid[t.y][t.x] = newColor;
-            
-            if (t.y != UPPER_BORDER && affectedGrid->grid[t.y - 1][t.x] == oldColor)
+
+            if (t.y != UPPER_BORDER && affectedGrid->at({t.x, t.y - 1}) == oldColor)
                 temp.push({t.x, t.y - 1});
-            
-            if (t.y != LOWER_BORDER && affectedGrid->grid[t.y + 1][t.x] == oldColor)
+
+            if (t.y != LOWER_BORDER && affectedGrid->at({t.x, t.y + 1}) == oldColor)
                 temp.push({t.x, t.y + 1});
-            
-            if (t.x != LEFT_BORDER && affectedGrid->grid[t.y][t.x - 1] == oldColor)
+
+            if (t.x != LEFT_BORDER && affectedGrid->at({t.x - 1, t.y}) == oldColor)
                 temp.push({t.x - 1, t.y});
-            
-            if (t.x != RIGHT_BORDER && affectedGrid->grid[t.y][t.x + 1] == oldColor)
+
+            if (t.x != RIGHT_BORDER && affectedGrid->at({t.x + 1, t.y}) == oldColor)
                 temp.push({t.x + 1, t.y});
         }
 
