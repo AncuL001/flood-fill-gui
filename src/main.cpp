@@ -1,5 +1,7 @@
 #include <GL/glut.h>
 #include <iostream>
+#include <chrono>
+#include <thread>
 #include "grid.hpp"
 #include "flood_fill_animation.hpp"
 
@@ -57,6 +59,12 @@ GLvoid onDisplay() {
   glFlush();
 }
 
+GLvoid onIdle() {
+  if (currentAnimation)
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    glutPostRedisplay();
+}
+
 GLvoid onReshape(int w, int h) {
   std::cout << "Reshape func ran!\n";
   glViewport(0, 0, w, h);
@@ -95,6 +103,7 @@ int main(int argc, char* argv[])
   glutDisplayFunc( onDisplay );
   glutReshapeFunc( onReshape );
   glutMouseFunc( onMouseClick );
+  glutIdleFunc( onIdle );
   init();
 
 
