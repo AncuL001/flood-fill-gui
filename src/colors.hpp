@@ -10,6 +10,10 @@ namespace Colors {
     int color;
   };
 
+  Color white() {
+    return Color{"white", 0xFFFFFF};
+  }
+
   Color black() {
     return Color{"black", 0x000000};
   }
@@ -35,6 +39,7 @@ namespace Colors {
   }
 
   static std::vector<Color> colorList {
+    white(),
     black(),
     red(),
     pink(),
