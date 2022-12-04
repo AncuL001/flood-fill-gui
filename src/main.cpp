@@ -60,9 +60,10 @@ GLvoid onDisplay() {
 }
 
 GLvoid onIdle() {
-  if (currentAnimation)
+  if (currentAnimation) {
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
     glutPostRedisplay();
+  }
 }
 
 GLvoid onReshape(int w, int h) {
