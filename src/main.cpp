@@ -3,13 +3,16 @@
 #include <chrono>
 #include <thread>
 #include "grid.hpp"
+#include "grid_block_mode_handler.hpp"
 #include "flood_fill_animation.hpp"
 
 #define BLOCK_MODE 0
 #define FILL_MODE 1
 
 Grid grid = Grid(50);
+GridBlockModeHandler gridBlockModeHandler{grid};
 FloodFillAnimation* currentAnimation = nullptr;
+Colors::Color selectedColor = Colors::black();
 
 int currentMode = BLOCK_MODE;
 
@@ -20,14 +23,14 @@ GLvoid onMouseClick(int button, int state, int x, int y) {
     switch (currentMode) {
       case BLOCK_MODE:
         if (button == GLUT_LEFT_BUTTON && state == GLUT_UP) {
-          grid.onMouseClick(x, y, glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT));
+          gridBlockModeHandler.onMouseClick(x, y, glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT), selectedColor);
         }
         break;
 
       case FILL_MODE:
         currentAnimation = new FloodFillAnimation(&grid, 
                                                   grid.getCoordinate(x, y, glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT)), 
-                                                  0xFF0000);
+                                                  selectedColor);
         break;
 
       default:
@@ -71,6 +74,10 @@ GLvoid onReshape(int w, int h) {
   glViewport(0, 0, w, h);
 }
 
+GLvoid onColorSubmenuItemSelected(int colorIndex) {
+  selectedColor = Colors::colorList[colorIndex];
+}
+
 GLvoid onMenuItemSelected(int mode) {
   std::cout << "Selected mode: " << mode << '\n';
 
@@ -78,9 +85,15 @@ GLvoid onMenuItemSelected(int mode) {
 }
 
 void initMenu() {
-  int temp = glutCreateMenu( onMenuItemSelected );
+  int submenu_id = glutCreateMenu( onColorSubmenuItemSelected );
+  for (int i = 0; i < Colors::colorList.size(); i++) {
+    glutAddMenuEntry(Colors::colorList[i].name.c_str(), i);
+  }
+
+  glutCreateMenu( onMenuItemSelected );
   glutAddMenuEntry("Block Mode", BLOCK_MODE);
   glutAddMenuEntry("Fill Mode", FILL_MODE);
+  glutAddSubMenu("Select Color", submenu_id);
   glutAttachMenu(GLUT_RIGHT_BUTTON);
 }
 

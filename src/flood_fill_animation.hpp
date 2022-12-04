@@ -2,6 +2,7 @@
 
 #include "grid.hpp"
 #include "point.hpp"
+#include "colors.hpp"
 #include <queue>
 #include <array>
 
@@ -10,11 +11,11 @@ class FloodFillAnimation
 public:
     Grid* affectedGrid;
     bool isFinished = false;
-    int newColor;
+    Colors::Color newColor;
     int oldColor;
     std::queue<Point> tilesToFill;
 
-    FloodFillAnimation(Grid* affectedGrid, Point startingPoint, int mewColor) : 
+    FloodFillAnimation(Grid* affectedGrid, Point startingPoint, Colors::Color newColor) : 
         affectedGrid(affectedGrid),
         newColor(newColor) 
     {
@@ -33,7 +34,7 @@ public:
         while (!tilesToFill.empty()) {
             auto t = tilesToFill.front();
             tilesToFill.pop();
-            affectedGrid->grid[t.y][t.x] = newColor;
+            affectedGrid->grid[t.y][t.x] = newColor.color;
 
             if (t.y != UPPER_BORDER && affectedGrid->at({t.x, t.y - 1}) == oldColor)
                 temp.push({t.x, t.y - 1});

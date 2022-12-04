@@ -28,12 +28,6 @@ public:
         return {int(x / gridWidth), int(y / gridHeight)};
     }
 
-    GLvoid onMouseClick(int x, int y, int windowWidth, int windowHeight) {
-        auto coord = getCoordinate(x, y, windowWidth, windowHeight);
-
-        grid[coord.y][coord.x] = 0x000000;
-    }
-
     GLvoid render() {
         GLfloat gridWidth = GLfloat(glutGet(GLUT_WINDOW_WIDTH)) / grid[0].size();
         GLfloat gridHeight = GLfloat(glutGet(GLUT_WINDOW_HEIGHT)) / grid.size();
