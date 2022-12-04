@@ -78,22 +78,25 @@ GLvoid onColorSubmenuItemSelected(int colorIndex) {
   selectedColor = Colors::colorList[colorIndex];
 }
 
-GLvoid onMenuItemSelected(int mode) {
+GLvoid onModeSubmenuItemSelected(int mode) {
   std::cout << "Selected mode: " << mode << '\n';
 
   currentMode = mode;
 }
 
 void initMenu() {
-  int submenu_id = glutCreateMenu( onColorSubmenuItemSelected );
+  int colorSubmenuId = glutCreateMenu( onColorSubmenuItemSelected );
   for (int i = 0; i < Colors::colorList.size(); i++) {
     glutAddMenuEntry(Colors::colorList[i].name.c_str(), i);
   }
 
-  glutCreateMenu( onMenuItemSelected );
+  int modeSubmenuId = glutCreateMenu( onModeSubmenuItemSelected );
   glutAddMenuEntry("Block Mode", BLOCK_MODE);
   glutAddMenuEntry("Fill Mode", FILL_MODE);
-  glutAddSubMenu("Select Color", submenu_id);
+
+  glutCreateMenu( [](int _) {} );
+  glutAddSubMenu("Select Mode", modeSubmenuId);
+  glutAddSubMenu("Select Color", colorSubmenuId);
   glutAttachMenu(GLUT_RIGHT_BUTTON);
 }
 
