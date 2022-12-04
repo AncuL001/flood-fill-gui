@@ -5,6 +5,7 @@
 #include "colors.hpp"
 #include <queue>
 #include <array>
+#include <unordered_set>
 
 class FloodFillAnimation
 {
@@ -29,27 +30,28 @@ public:
         const int LOWER_BORDER = affectedGrid->grid.size() - 1;
         const int RIGHT_BORDER = affectedGrid->grid[0].size() - 1;
 
-        std::queue<Point> temp;
-
+        std::unordered_set<Point> temp;
         while (!tilesToFill.empty()) {
             auto t = tilesToFill.front();
             tilesToFill.pop();
             affectedGrid->grid[t.y][t.x] = newColor.color;
 
             if (t.y != UPPER_BORDER && affectedGrid->at({t.x, t.y - 1}) == oldColor)
-                temp.push({t.x, t.y - 1});
+                temp.insert({t.x, t.y - 1});
 
             if (t.y != LOWER_BORDER && affectedGrid->at({t.x, t.y + 1}) == oldColor)
-                temp.push({t.x, t.y + 1});
+                temp.insert({t.x, t.y + 1});
 
             if (t.x != LEFT_BORDER && affectedGrid->at({t.x - 1, t.y}) == oldColor)
-                temp.push({t.x - 1, t.y});
+                temp.insert({t.x - 1, t.y});
 
             if (t.x != RIGHT_BORDER && affectedGrid->at({t.x + 1, t.y}) == oldColor)
-                temp.push({t.x + 1, t.y});
+                temp.insert({t.x + 1, t.y});
         }
 
-        tilesToFill = temp;
+        for (const auto& item: temp) {
+            tilesToFill.push(item);
+        }
 
         if (tilesToFill.empty()) {
             isFinished = true;
