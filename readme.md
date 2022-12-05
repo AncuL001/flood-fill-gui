@@ -1,5 +1,5 @@
-# GLUT CMake vcpkg Template
-Testing using GLUT with VCPKG and CMake since inserting custom libraries and libs to system folders is full of pain. For my Computer Graphics course.
+# Flood Fill GUI
+Using GLUT with VCPKG and CMake since inserting custom libraries and libs to system folders is full of pain. For my Computer Graphics course.
 
 # Notes
 - Set up CMake and vcpkg
