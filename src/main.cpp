@@ -1,5 +1,6 @@
 #include <GL/glut.h>
 #include <iostream>
+#include <sstream>
 #include <chrono>
 #include <thread>
 #include "grid.hpp"
@@ -8,7 +9,7 @@
 
 #define BLOCK_MODE 0
 #define FILL_MODE 1
-#define RESET 0
+#define OPTION_RESET 0
 
 Grid grid = Grid(50);
 GridBlockModeHandler gridBlockModeHandler{grid};
@@ -76,7 +77,7 @@ GLvoid onReshape(int w, int h) {
 }
 
 GLvoid onMenuItemSelected(int option) {
-  if (option == RESET) {
+  if (option == OPTION_RESET) {
     grid = Grid(grid.grid.size());
   }
 
@@ -93,6 +94,14 @@ GLvoid onModeSubmenuItemSelected(int mode) {
   currentMode = mode;
 }
 
+GLvoid onResizeSubmenuItemSelected(int size) {
+  if (size == 0) {}
+
+  else {
+    grid = Grid(size);
+  }
+}
+
 void initMenu() {
   int colorSubmenuId = glutCreateMenu( onColorSubmenuItemSelected );
   for (int i = 0; i < Colors::colorList.size(); i++) {
@@ -103,10 +112,19 @@ void initMenu() {
   glutAddMenuEntry("Block Mode", BLOCK_MODE);
   glutAddMenuEntry("Fill Mode", FILL_MODE);
 
+  int resizeSubmenuId = glutCreateMenu( onResizeSubmenuItemSelected );
+  std::vector<int> sizeOptions = {10, 30, 50, 70, 100};
+  for (const int& sizeOption: sizeOptions) {
+    std::stringstream temp;
+    temp << sizeOption << "x" << sizeOption;
+    glutAddMenuEntry(temp.str().c_str(), sizeOption);
+  }
+
   glutCreateMenu( onMenuItemSelected );
   glutAddSubMenu("Select Mode", modeSubmenuId);
   glutAddSubMenu("Select Color", colorSubmenuId);
-  glutAddMenuEntry("Reset", RESET);
+  glutAddSubMenu("Resize Canvas", resizeSubmenuId);
+  glutAddMenuEntry("Reset", OPTION_RESET);
   glutAttachMenu(GLUT_RIGHT_BUTTON);
 }
 
