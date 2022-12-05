@@ -11,8 +11,8 @@ class Grid
 public:
     std::vector<std::vector<int>> grid;
 
-    Grid(int size) {
-        for (int i = 0; i < size; i++) {
+    Grid(size_t size) {
+        for (size_t i = 0; i < size; i++) {
             grid.push_back(std::vector<int>(size, 0xFFFFFF));
         }
     }
@@ -25,7 +25,7 @@ public:
         GLfloat gridWidth = GLfloat(windowWidth) / grid[0].size();
         GLfloat gridHeight = GLfloat(windowHeight) / grid.size();
 
-        return {int(x / gridWidth), int(y / gridHeight)};
+        return {size_t(x / gridWidth), size_t(y / gridHeight)};
     }
 
     GLvoid render() {

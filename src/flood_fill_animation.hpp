@@ -25,10 +25,10 @@ public:
     }
 
     void forward() {
-        const int LEFT_BORDER = 0;
-        const int UPPER_BORDER = 0;
-        const int LOWER_BORDER = affectedGrid->grid.size() - 1;
-        const int RIGHT_BORDER = affectedGrid->grid[0].size() - 1;
+        const size_t LEFT_BORDER = 0;
+        const size_t UPPER_BORDER = 0;
+        const size_t LOWER_BORDER = affectedGrid->grid.size() - 1;
+        const size_t RIGHT_BORDER = affectedGrid->grid[0].size() - 1;
 
         std::unordered_set<Point> temp;
         while (!tilesToFill.empty()) {

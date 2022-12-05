@@ -1,11 +1,11 @@
 #pragma once
 
 struct Point {
-    int x;
-    int y;
+    size_t x;
+    size_t y;
 
     Point() : x(0), y(0) {};
-    Point(const int& x, const int& y) : x(x), y(y) {};
+    Point(const size_t& x, const size_t& y) : x(x), y(y) {};
     Point(const Point& other){
         x = other.x;
         y = other.y;
