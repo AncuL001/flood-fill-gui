@@ -8,6 +8,7 @@
 
 #define BLOCK_MODE 0
 #define FILL_MODE 1
+#define RESET 0
 
 Grid grid = Grid(50);
 GridBlockModeHandler gridBlockModeHandler{grid};
@@ -74,6 +75,14 @@ GLvoid onReshape(int w, int h) {
   glViewport(0, 0, w, h);
 }
 
+GLvoid onMenuItemSelected(int option) {
+  if (option == RESET) {
+    grid = Grid(grid.grid.size());
+  }
+
+  glutPostRedisplay();
+}
+
 GLvoid onColorSubmenuItemSelected(int colorIndex) {
   selectedColor = Colors::colorList[colorIndex];
 }
@@ -94,9 +103,10 @@ void initMenu() {
   glutAddMenuEntry("Block Mode", BLOCK_MODE);
   glutAddMenuEntry("Fill Mode", FILL_MODE);
 
-  glutCreateMenu( [](int _) {} );
+  glutCreateMenu( onMenuItemSelected );
   glutAddSubMenu("Select Mode", modeSubmenuId);
   glutAddSubMenu("Select Color", colorSubmenuId);
+  glutAddMenuEntry("Reset", RESET);
   glutAttachMenu(GLUT_RIGHT_BUTTON);
 }
 
