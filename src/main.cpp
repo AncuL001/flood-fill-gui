@@ -78,6 +78,9 @@ GLvoid onReshape(int w, int h) {
 
 GLvoid onMenuItemSelected(int option) {
   if (option == OPTION_RESET) {
+    delete currentAnimation;
+    currentAnimation = nullptr;
+
     grid = Grid(grid.grid.size());
   }
 
@@ -98,6 +101,9 @@ GLvoid onResizeSubmenuItemSelected(int size) {
   if (size == 0) {}
 
   else {
+    delete currentAnimation;
+    currentAnimation = nullptr;
+
     grid = Grid(size);
   }
 
