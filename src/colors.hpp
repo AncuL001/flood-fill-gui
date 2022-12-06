@@ -26,25 +26,60 @@ namespace Colors {
     return Color{"pink", 0xE91E63};
   }
 
+  Color purple() {
+    return Color{"purple", 0xab47bc};
+  }
+
+  Color indigo() {
+    return Color{"indigo", 0x5c6bc0};
+  }
+
+  Color blue() {
+    return Color{"blue", 0x42a5f5};
+  }
+
+  Color cyan() {
+    return Color{"cyan", 0x26c6da};
+  }
+
+  Color teal() {
+    return Color{"teal", 0x26a69a};
+  }
+
+  Color green() {
+    return Color{"green", 0x66bb6a};
+  }
+
+  Color lime() {
+    return Color{"lime", 0xd4e157};
+  }
+
+  Color yellow() {
+    return Color{"yellow", 0xdffee58};
+  }
+
   Color amber() {
     return Color{"amber", 0xFFC107};
   }
 
-  Color purple() {
-    return Color{"purple", 0x7C4DFF};
-  }
-
-  Color blue() {
-    return Color{"blue", 0x2196F3};
+  Color orange() {
+    return Color{"orange", 0xffa726};
   }
 
   static std::vector<Color> colorList {
-    white(),
     black(),
+    white(),
     red(),
     pink(),
-    red(),
     purple(),
+    indigo(),
     blue(),
+    cyan(),
+    teal(),
+    green(),
+    lime(),
+    yellow(),
+    amber(),
+    orange()
   };
 }
