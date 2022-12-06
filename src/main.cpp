@@ -100,6 +100,8 @@ GLvoid onResizeSubmenuItemSelected(int size) {
   else {
     grid = Grid(size);
   }
+
+  glutPostRedisplay();
 }
 
 void initMenu() {
@@ -113,7 +115,7 @@ void initMenu() {
   glutAddMenuEntry("Fill Mode", FILL_MODE);
 
   int resizeSubmenuId = glutCreateMenu( onResizeSubmenuItemSelected );
-  std::vector<int> sizeOptions = {10, 30, 50, 70, 100};
+  std::vector<int> sizeOptions = {10, 15, 20, 25, 30, 50, 70, 100};
   for (const int& sizeOption: sizeOptions) {
     std::stringstream temp;
     temp << sizeOption << "x" << sizeOption;
