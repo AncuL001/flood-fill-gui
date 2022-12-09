@@ -6,14 +6,17 @@
 #include "grid.hpp"
 #include "grid_block_mode_handler.hpp"
 #include "flood_fill_animation.hpp"
+#include "grid_line_mode_handler.hpp"
 
 #define BLOCK_MODE 0
 #define FILL_MODE 1
+#define LINE_MODE 2
 #define OPTION_RESET 0
 
 Grid grid = Grid(50);
 GridBlockModeHandler gridBlockModeHandler{grid};
 FloodFillAnimation* currentAnimation = nullptr;
+GridLineModeHandler* gridLineModeHandler = nullptr;
 Colors::Color selectedColor = Colors::black();
 
 int currentMode = BLOCK_MODE;
@@ -21,18 +24,30 @@ int currentMode = BLOCK_MODE;
 GLvoid onMouseClick(int button, int state, int x, int y) {
   std::cout << "MouseClick func ran!\n";
 
-  if (!currentAnimation) {
+  if (button == GLUT_LEFT_BUTTON && state == GLUT_UP && !currentAnimation) {
     switch (currentMode) {
       case BLOCK_MODE:
-        if (button == GLUT_LEFT_BUTTON && state == GLUT_UP) {
           gridBlockModeHandler.onMouseClick(x, y, glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT), selectedColor);
-        }
         break;
 
       case FILL_MODE:
         currentAnimation = new FloodFillAnimation(&grid, 
                                                   grid.getCoordinate(x, y, glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT)), 
                                                   selectedColor);
+        break;
+
+      case LINE_MODE:
+        if (gridLineModeHandler == nullptr) {
+          gridLineModeHandler = new GridLineModeHandler(grid,
+                                                        grid.getCoordinate(x, y, glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT)),
+                                                        selectedColor
+          );
+        }
+        else {
+          gridLineModeHandler->apply();
+          delete gridLineModeHandler;
+          gridLineModeHandler = nullptr;
+        }
         break;
 
       default:
@@ -58,7 +73,15 @@ GLvoid onDisplay() {
   glClear(GL_COLOR_BUFFER_BIT);
 
   glPushMatrix();
-  grid.render();
+    glPushMatrix();
+      grid.render();
+    glPopMatrix();
+
+    if (gridLineModeHandler) {
+      glPushMatrix();
+        gridLineModeHandler->render();
+      glPopMatrix();
+    }
   glPopMatrix();
 
   glFlush();
@@ -110,6 +133,13 @@ GLvoid onResizeSubmenuItemSelected(int size) {
   glutPostRedisplay();
 }
 
+GLvoid onPassiveMotion(int x, int y) {
+  if (gridLineModeHandler) {
+    gridLineModeHandler->endPoint = grid.getCoordinate(x, y, glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT));
+  }
+  glutPostRedisplay();
+}
+
 void initMenu() {
   int colorSubmenuId = glutCreateMenu( onColorSubmenuItemSelected );
   for (int i = 0; i < Colors::colorList.size(); i++) {
@@ -119,6 +149,7 @@ void initMenu() {
   int modeSubmenuId = glutCreateMenu( onModeSubmenuItemSelected );
   glutAddMenuEntry("Block Mode", BLOCK_MODE);
   glutAddMenuEntry("Fill Mode", FILL_MODE);
+  glutAddMenuEntry("Line Mode", LINE_MODE);
 
   int resizeSubmenuId = glutCreateMenu( onResizeSubmenuItemSelected );
   std::vector<int> sizeOptions = {10, 15, 20, 25, 30, 50, 70, 100};
@@ -156,6 +187,7 @@ int main(int argc, char* argv[])
   glutDisplayFunc( onDisplay );
   glutReshapeFunc( onReshape );
   glutMouseFunc( onMouseClick );
+  glutPassiveMotionFunc( onPassiveMotion );
   glutIdleFunc( onIdle );
   init();
 
