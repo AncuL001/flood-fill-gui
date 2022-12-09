@@ -2,7 +2,6 @@
 
 #include "../point.hpp"
 #include <vector>
-#include <iostream>
 
 class PointGenerator
 {
