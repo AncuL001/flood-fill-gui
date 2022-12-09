@@ -21,6 +21,13 @@ public:
         return grid[point.y][point.x];
     }
 
+    bool isValidCoordinate(Point point) {
+        return point.x >= 0
+            && point.x < grid[0].size()
+            && point.y >= 0
+            && point.y < grid.size(); 
+    }
+
     Point getCoordinate(int x, int y, int windowWidth, int windowHeight) {
         GLfloat gridWidth = GLfloat(windowWidth) / grid[0].size();
         GLfloat gridHeight = GLfloat(windowHeight) / grid.size();

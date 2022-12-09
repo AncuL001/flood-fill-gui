@@ -48,7 +48,9 @@ public:
 
     virtual void apply() {
         for (const auto& point: pointGenerator->generate(startingPoint, endPoint)) {
-            grid.grid[point.y][point.x] = lineColor.color;
+            if (grid.isValidCoordinate(point)) {
+                grid.grid[point.y][point.x] = lineColor.color;
+            }
         }
     };
 };
