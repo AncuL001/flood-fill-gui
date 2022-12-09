@@ -1,30 +1,18 @@
 #pragma once
 
-#include <vector>
-#include <memory>
-#include <math.h>
-#include "grid.hpp"
-#include "point.hpp"
-#include "colors.hpp"
-#include "point_generators/bresenham_point_generator.hpp"
+#include "appliable_mode_handler.hpp"
+#include "../point_generators/bresenham_point_generator.hpp"
 
-class GridLineModeHandler
+class LineModeHandler : public AppliableModeHandler
 {
 public:
-    Grid& grid;
-    Point startingPoint;
-    Point endPoint;
-    Colors::Color lineColor;
-    std::unique_ptr<PointGenerator> pointGenerator = std::make_unique<BresenhamPointGenerator>(BresenhamPointGenerator());
+    LineModeHandler(Grid& grid, Point startingPoint, Colors::Color lineColor) : 
+        AppliableModeHandler(grid, startingPoint, lineColor)
+        {
+            pointGenerator = std::make_unique<BresenhamPointGenerator>(BresenhamPointGenerator());
+        }
 
-    GridLineModeHandler(Grid& grid, Point startingPoint, Colors::Color lineColor) : 
-        grid(grid),
-        startingPoint(startingPoint),
-        endPoint(startingPoint),
-        lineColor(lineColor)
-        {}
-
-    void render() {
+    void renderPreview() override {
         GLfloat gridWidth = GLfloat(glutGet(GLUT_WINDOW_WIDTH)) / grid.grid[0].size();
         GLfloat gridHeight = GLfloat(glutGet(GLUT_WINDOW_HEIGHT)) / grid.grid.size();
 
@@ -42,7 +30,7 @@ public:
         }
     }
 
-    void apply() {
+    void apply() override {
         for (const auto& point: pointGenerator->generate(startingPoint, endPoint)) {
             grid.grid[point.y][point.x] = lineColor.color;
         }

@@ -6,7 +6,7 @@
 #include "grid.hpp"
 #include "grid_block_mode_handler.hpp"
 #include "flood_fill_animation.hpp"
-#include "grid_line_mode_handler.hpp"
+#include "appliable_mode_handler/line_mode_handler.hpp"
 
 #define BLOCK_MODE 0
 #define FILL_MODE 1
@@ -16,7 +16,7 @@
 Grid grid = Grid(50);
 GridBlockModeHandler gridBlockModeHandler{grid};
 FloodFillAnimation* currentAnimation = nullptr;
-GridLineModeHandler* gridLineModeHandler = nullptr;
+AppliableModeHandler* appliableModeHandler = nullptr;
 Colors::Color selectedColor = Colors::black();
 
 int currentMode = BLOCK_MODE;
@@ -37,16 +37,16 @@ GLvoid onMouseClick(int button, int state, int x, int y) {
         break;
 
       case LINE_MODE:
-        if (gridLineModeHandler == nullptr) {
-          gridLineModeHandler = new GridLineModeHandler(grid,
-                                                        grid.getCoordinate(x, y, glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT)),
-                                                        selectedColor
+        if (appliableModeHandler == nullptr) {
+          appliableModeHandler = new LineModeHandler(grid,
+                                                    grid.getCoordinate(x, y, glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT)),
+                                                    selectedColor
           );
         }
         else {
-          gridLineModeHandler->apply();
-          delete gridLineModeHandler;
-          gridLineModeHandler = nullptr;
+          appliableModeHandler->apply();
+          delete appliableModeHandler;
+          appliableModeHandler = nullptr;
         }
         break;
 
@@ -77,9 +77,9 @@ GLvoid onDisplay() {
       grid.render();
     glPopMatrix();
 
-    if (gridLineModeHandler) {
+    if (appliableModeHandler) {
       glPushMatrix();
-        gridLineModeHandler->render();
+        appliableModeHandler->renderPreview();
       glPopMatrix();
     }
   glPopMatrix();
@@ -134,8 +134,8 @@ GLvoid onResizeSubmenuItemSelected(int size) {
 }
 
 GLvoid onPassiveMotion(int x, int y) {
-  if (gridLineModeHandler) {
-    gridLineModeHandler->endPoint = grid.getCoordinate(x, y, glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT));
+  if (appliableModeHandler) {
+    appliableModeHandler->endPoint = grid.getCoordinate(x, y, glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT));
   }
   glutPostRedisplay();
 }
