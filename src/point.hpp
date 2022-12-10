@@ -1,11 +1,11 @@
 #pragma once
 
 struct Point {
-    size_t x;
-    size_t y;
+    int64_t x;
+    int64_t y;
 
     Point() : x(0), y(0) {};
-    Point(const size_t& x, const size_t& y) : x(x), y(y) {};
+    Point(const int64_t& x, const int64_t& y) : x(x), y(y) {};
     Point(const Point& other){
         x = other.x;
         y = other.y;
@@ -33,8 +33,8 @@ struct Point {
     };
 
     // this could be moved in to std::hash<Point>::operator()
-    size_t operator()(const Point& pointToHash) const noexcept {
-        size_t hash = pointToHash.x + 10 * pointToHash.y;
+    int64_t operator()(const Point& pointToHash) const noexcept {
+        int64_t hash = pointToHash.x + 10 * pointToHash.y;
         return hash;
     };
 
@@ -43,7 +43,7 @@ struct Point {
 namespace std {
     template<> struct hash<Point>
     {
-        std::size_t operator()(const Point& p) const noexcept
+        std::int64_t operator()(const Point& p) const noexcept
         {
             return p(p);
         }

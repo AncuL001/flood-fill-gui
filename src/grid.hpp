@@ -23,9 +23,9 @@ public:
 
     bool isValidCoordinate(Point point) {
         return point.x >= 0
-            && point.x < grid[0].size()
+            && point.x < int64_t(grid[0].size())
             && point.y >= 0
-            && point.y < grid.size(); 
+            && point.y < int64_t(grid.size());
     }
 
     Point getCoordinate(int x, int y, int windowWidth, int windowHeight) {

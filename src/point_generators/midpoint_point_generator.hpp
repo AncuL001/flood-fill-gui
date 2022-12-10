@@ -7,7 +7,7 @@ class MidpointPointGenerator: public PointGenerator
 {
     std::vector<Point> generate(const Point& p1, const Point& p2) override {
         std::vector<Point> res;
-        int x = abs(std::hypot(int64_t(p2.x) - int64_t(p1.x), int64_t(p2.y) - int64_t(p1.y)));
+        int x = int(abs(std::hypot(p2.x - p1.x, p2.y - p1.y)));
         int y = 0;
         int err = 0;
 

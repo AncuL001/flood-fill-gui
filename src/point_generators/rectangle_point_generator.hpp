@@ -14,7 +14,7 @@ class RectanglePointGenerator: public PointGenerator
     std::vector<Point> innerImpl(const Point& topLeft, const Point& bottomRight) {
         std::vector<Point> res;
 
-        size_t currentX = topLeft.x;
+        int64_t currentX = topLeft.x;
         while (currentX <= bottomRight.x) {
             res.push_back({currentX, topLeft.y});
             res.push_back({currentX, bottomRight.y});
@@ -22,7 +22,7 @@ class RectanglePointGenerator: public PointGenerator
             currentX++;
         }
 
-        size_t currentY = topLeft.y;
+        int64_t currentY = topLeft.y;
         while (currentY <= bottomRight.y) {
             res.push_back({topLeft.x, currentY});
             res.push_back({bottomRight.x, currentY});

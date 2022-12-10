@@ -23,7 +23,7 @@ public:
         };
 
         auto res = multiplyMatrix(mat, rotationMatrix);
-        return Point{size_t(round(res[0][0])) + center.x, size_t(round(res[0][1])) + center.y};
+        return Point{int64_t(round(res[0][0])) + center.x, int64_t(round(res[0][1])) + center.y};
     }
 
     static double d2r(double d) {
@@ -31,21 +31,21 @@ public:
     }
 
     static std::vector<std::vector<double>> multiplyMatrix(std::vector<std::vector<double>> a, std::vector<std::vector<double>> b){
-        int m = a.size();
-        int n = a[0].size();
+        size_t m = a.size();
+        size_t n = a[0].size();
 
-        int p = b.size();
-        int q = b[0].size();
+        size_t p = b.size();
+        size_t q = b[0].size();
 
         std::vector<std::vector<double>> c;
         for (size_t i = 0; i < m; i++) {
-            c.push_back(std::vector<double>(q, 0xFFFFFF));
+            c.push_back(std::vector<double>(q, 0));
         }
 
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < q; j++) {
+        for (size_t i = 0; i < m; i++) {
+            for (size_t j = 0; j < q; j++) {
                 c[i][j] = 0;
-                for (int k = 0; k < n; k++) {
+                for (size_t k = 0; k < n; k++) {
                     c[i][j] += a[i][k] * b[k][j];
                 }
             }
