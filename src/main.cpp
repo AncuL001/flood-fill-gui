@@ -9,12 +9,14 @@
 #include "appliable_mode_handler/line_mode_handler.hpp"
 #include "appliable_mode_handler/circle_mode_handler.hpp"
 #include "appliable_mode_handler/rectangle_mode_handler.hpp"
+#include "appliable_mode_handler/triangle_mode_handler.hpp"
 
 #define BLOCK_MODE 0
 #define FILL_MODE 1
 #define LINE_MODE 2
 #define CIRCLE_MODE 3
 #define RECT_MODE 4
+#define TRIANGLE_MODE 5
 #define OPTION_RESET 0
 
 Grid grid = Grid(50);
@@ -82,6 +84,19 @@ GLvoid onMouseClick(int button, int state, int x, int y) {
         }
         break;
 
+      case TRIANGLE_MODE:
+        if (appliableModeHandler == nullptr) {
+          appliableModeHandler = new TriangleModeHandler(grid,
+                                                          grid.getCoordinate(x, y, glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT)),
+                                                          selectedColor
+          );
+        }
+        else {
+          appliableModeHandler->apply();
+          delete appliableModeHandler;
+          appliableModeHandler = nullptr;
+        }
+        break;
 
       default:
         break;
@@ -185,6 +200,7 @@ void initMenu() {
   glutAddMenuEntry("Line Mode", LINE_MODE);
   glutAddMenuEntry("Circle Mode", CIRCLE_MODE);
   glutAddMenuEntry("Rectangle Mode", RECT_MODE);
+  glutAddMenuEntry("Triangle Mode", TRIANGLE_MODE);
 
   int resizeSubmenuId = glutCreateMenu( onResizeSubmenuItemSelected );
   std::vector<int> sizeOptions = {10, 15, 20, 25, 30, 50, 70, 100};
